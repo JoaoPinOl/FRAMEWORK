@@ -38,12 +38,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public User get(final Long id) {
+        try{
+            return userRepository.findById(id).orElse(null);
+        }catch(Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
-    public User update(Long id, User user) {
+    public User update(final Long id, final User user) {
         User userUpdate = userRepository.findById(id).orElse(null);
         if(Objects.nonNull(userUpdate)){
             String passwordHash = passwordEncoder.encode(user.getPassword());
@@ -58,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(final Long id) {
         userRepository.deleteById(id);
     }
 }
