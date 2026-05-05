@@ -1,4 +1,4 @@
-package com.descomplica.frameblog.models;
+package com.descomplica.frameblog.models.V2;
 
 
 import com.descomplica.frameblog.enums.RoleEnum;
@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements UserDetails {
+@Table(name = "User")
+public class UserV2 implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,10 +23,13 @@ public class User implements UserDetails {
     private RoleEnum role;
     private String username;
 
-    public User(){
+    @OneToMany
+    private List<AddressV2> address;
+
+    public UserV2(){
 
     }
-    public User(final Long userId, final String name, final String email, final String password, final RoleEnum role, final String username) {
+    public UserV2(final Long userId, final String name, final String email, final String password, final RoleEnum role, final String username) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -80,6 +83,14 @@ public class User implements UserDetails {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<AddressV2> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<AddressV2> address) {
+        this.address = address;
     }
 
     @Override

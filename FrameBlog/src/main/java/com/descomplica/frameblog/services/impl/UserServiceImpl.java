@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
         }
         String passwordHash = passwordEncoder.encode(user.getPassword());
 
-        User entity =  new User(user.getUserId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole(), user.getUsername());
+        User entity = new User(user.getUserId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole(), user.getUsername());
         User newUser = userRepository.save(entity);
         return new User(newUser.getUserId(), newUser.getName(), newUser.getEmail(), newUser.getPassword(), newUser.getRole(), newUser.getUsername());
     }
@@ -66,3 +66,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 }
+

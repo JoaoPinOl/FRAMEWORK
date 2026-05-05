@@ -30,17 +30,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String getToken(AuthRequest auth){
-        User user = userRepository.findByUsername(auth.getUsername());
-        return generateToken(user);
+        User userV2 = userRepository.findByUsername(auth.getUsername());
+        return generateToken(userV2);
     }
 
-    public  String generateToken(User user) {
+    public  String generateToken(User userV2) {
         try {
             Algorithm algorithm = Algorithm.HMAC256("my-secret");
 
             return JWT.create()
                     .withIssuer("FrameBlog")
-                    .withSubject(user.getUsername())
+                    .withSubject(userV2.getUsername())
                     .withExpiresAt(getExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

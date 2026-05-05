@@ -23,15 +23,21 @@ public class SpringSecurityAuthentication {
     @Autowired
     private SecurityFilter securityFilter;
 
+    public static final String[] SWAGGER_AUTH_PERMIT_LIST = new String[] {
+        "/api-docs/**",
+        "/swagger-ui/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(SWAGGER_AUTH_PERMIT_LIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/save").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/gatAll").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/users/getAll").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/users/get").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/users/update").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/users/delete").hasRole("ADMIN")
@@ -45,6 +51,7 @@ public class SpringSecurityAuthentication {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }

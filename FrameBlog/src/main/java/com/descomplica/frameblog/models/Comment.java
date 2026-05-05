@@ -1,6 +1,5 @@
 package com.descomplica.frameblog.models;
 
-import com.descomplica.frameblog.enums.RoleEnum;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -20,18 +19,18 @@ public class Comment {
     private Post post;
 
     @ManyToOne
-    private User user;
+    private User userV2;
 
 
     public Comment() {
     }
 
-    public Comment(final Long commentId, final String content, final Date date, final Post post, final User user) {
+    public Comment(final Long commentId, final String content, final Date date, final Post post, final User userV2) {
         this.commentId = commentId;
         this.content = content;
         this.date = date;
         this.post = post;
-        this.user = user;
+        this.userV2 = userV2;
     }
 
     public Long getCommentId() {
@@ -67,10 +66,10 @@ public class Comment {
     }
 
     public User getUser() {
-        return user;
+        return userV2;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User userV2) {
+        this.userV2 = userV2;
     }
 }

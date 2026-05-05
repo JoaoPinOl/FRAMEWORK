@@ -17,18 +17,18 @@ public class Post {
     private Date date;
 
     @ManyToOne
-    private User userId;
+    private User userV2Id;
 
     public Post() {
 
     }
 
-    public Post(final Long postId, final String title, final String content, final Date date, final User userId) {
+    public Post(final Long postId, final String title, final String content, final Date date, final User userV2Id) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.date = date;
-        this.userId = userId;
+        this.userV2Id = userV2Id;
     }
 
     public Long getPostId() {
@@ -64,10 +64,10 @@ public class Post {
     }
 
     public User getUserId() {
-        return userId;
+        return userV2Id;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUserId(User userV2Id) {
+        this.userV2Id = userV2Id;
     }
 }
