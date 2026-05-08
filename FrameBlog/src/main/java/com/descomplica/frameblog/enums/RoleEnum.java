@@ -2,8 +2,8 @@ package com.descomplica.frameblog.enums;
 
 public enum RoleEnum {
 
-    ADMIN("ADMIN"),
-    USER("USER");
+    ADMIN("admin"),
+    USER("user");
     private final String role;
     RoleEnum(String role) {
         this.role = role;

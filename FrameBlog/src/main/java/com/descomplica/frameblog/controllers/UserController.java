@@ -5,6 +5,7 @@ import com.descomplica.frameblog.models.V2.UserV2;
 import com.descomplica.frameblog.services.UserService;
 import com.descomplica.frameblog.services.v2.UserServiceV2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class UserController {
     }
 
     //Traz todas as entidades do banco
+    @Cacheable
     @GetMapping(path = "/getAll")
     private @ResponseBody List<User> getAll(){
         return userService.getAll();

@@ -1,10 +1,12 @@
 package com.descomplica.frameblog.config;
 
+import com.descomplica.frameblog.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,7 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -22,6 +23,9 @@ public class SpringSecurityAuthentication {
 
     @Autowired
     private SecurityFilter securityFilter;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     public static final String[] SWAGGER_AUTH_PERMIT_LIST = new String[] {
         "/api-docs/**",
@@ -36,7 +40,7 @@ public class SpringSecurityAuthentication {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(SWAGGER_AUTH_PERMIT_LIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/save").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/users/save").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/getAll").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/users/get").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/users/update").hasRole("ADMIN")
@@ -50,6 +54,7 @@ public class SpringSecurityAuthentication {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

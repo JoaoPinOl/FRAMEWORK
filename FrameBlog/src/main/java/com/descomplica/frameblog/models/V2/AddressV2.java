@@ -3,7 +3,7 @@ package com.descomplica.frameblog.models.V2;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Address")
+@Table(name = "tb_address_v2")
 public class AddressV2 {
 
     @Id
