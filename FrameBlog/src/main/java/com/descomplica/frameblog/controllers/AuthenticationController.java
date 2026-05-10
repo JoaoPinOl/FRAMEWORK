@@ -17,16 +17,23 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PostMapping(path="/login")
+    @PostMapping(path = "/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public AuthResponse login(@RequestBody final AuthRequest auth) {
+        try {
+            UsernamePasswordAuthenticationToken userAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword());
 
-        UsernamePasswordAuthenticationToken userAuthenticationToken = new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword());
+            authenticationManager.authenticate(userAuthenticationToken);
 
-        authenticationManager.authenticate(userAuthenticationToken);
+            return new AuthResponse(authenticationService.getToken(auth));
 
-        return new AuthResponse(authenticationService.getToken(auth));
+        } catch (Exception e) {
+            System.out.println(">>> ERRO NO LOGIN: " + e.getClass().getName());
+            System.out.println(">>> MENSAGEM: " + e.getMessage());
+            throw e;
+        }
     }
 }
 

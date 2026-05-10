@@ -1,20 +1,25 @@
 package com.descomplica.frameblog.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuthRequest {
 
-    final String username;
-    final String password;
+    @JsonProperty("username")
+    private final String username;
 
-    public AuthRequest(String username, String password) {
+    @JsonProperty("password")
+    private final String password;
+
+    @JsonCreator
+    public AuthRequest(
+            @JsonProperty("username") String username,
+            @JsonProperty("password") String password
+    ) {
         this.username = username;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
+    public String getUsername() { return username; }
+    public String getPassword() { return password; }
 }

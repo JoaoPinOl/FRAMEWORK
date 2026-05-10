@@ -26,15 +26,30 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+
+        System.out.println(">>> FILTRO EXECUTANDO: " + request.getMethod() + " " + request.getRequestURI());
+
         String token = extractToken(request);
+        System.out.println(">>> TOKEN EXTRAIDO: " + token);
 
         if(token != null){
-            String username = authenticationService.validateJwtToken(token);
-            User user = userRepository.findByUsername(username);
+            try {
+                String username = authenticationService.validateJwtToken(token);
+                System.out.println(">>> USERNAME DO TOKEN: " + username);
 
-            var authenticationToken = new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                if(username != null && !username.isEmpty()) {
+                    User user = userRepository.findByUsername(username);
+                    System.out.println(">>> USUARIO ENCONTRADO: " + user);
+                    var authenticationToken = new UsernamePasswordAuthenticationToken(
+                            username, null, user.getAuthorities()
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+            } catch (Exception e) {
+                System.out.println(">>> ERRO NO FILTRO: " + e.getMessage());
+                SecurityContextHolder.clearContext();
+            }
         }
 
         filterChain.doFilter(request, response);

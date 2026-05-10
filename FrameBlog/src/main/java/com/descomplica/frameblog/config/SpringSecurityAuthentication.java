@@ -40,7 +40,7 @@ public class SpringSecurityAuthentication {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(SWAGGER_AUTH_PERMIT_LIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/save").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/saves").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/getAll").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/users/get").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/users/update").hasRole("ADMIN")

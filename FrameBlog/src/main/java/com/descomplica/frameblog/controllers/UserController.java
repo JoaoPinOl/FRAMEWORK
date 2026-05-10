@@ -23,14 +23,14 @@ public class UserController {
     private UserServiceV2 userServiceV2;
 
     @PostMapping("/saves")
-    private @ResponseBody User  saveUser(@RequestBody User user){
+    public @ResponseBody User  saveUser(@RequestBody User user){
         return userService.save(user);
     }
 
     //Traz todas as entidades do banco
-    @Cacheable
+    //@Cacheable("users")
     @GetMapping(path = "/getAll")
-    private @ResponseBody List<User> getAll(){
+    public @ResponseBody List<User> getAll(){
         return userService.getAll();
     }
 
@@ -39,7 +39,7 @@ public class UserController {
     // Versionamento por parâmetro de URI
     // e via parâmetro no cabeçalho
     @GetMapping(path = "/get")
-    private @ResponseBody ResponseEntity<Object> get(@RequestParam final Long id, @RequestParam final String uriVersion,
+    public @ResponseBody ResponseEntity<Object> get(@RequestParam final Long id, @RequestParam final String uriVersion,
                                                      @RequestHeader(name = "Accept-Version") final String acceptVersion) {
 
         if (uriVersion.equals("v2") || acceptVersion.equals("v2")){
@@ -54,12 +54,12 @@ public class UserController {
 //    }
 
     @PostMapping(path = "/update")
-    private @ResponseBody User update(@RequestParam final Long id, @RequestBody final User user){
+    public @ResponseBody User update(@RequestParam final Long id, @RequestBody final User user){
         return userService.update(id, user);
     }
 
     @DeleteMapping(path = "/delete")
-    private ResponseEntity<?>  delete(@RequestParam final Long id){
+    public ResponseEntity<?>  delete(@RequestParam final Long id){
         userService.delete(id);
         return ResponseEntity.ok().build();
     }

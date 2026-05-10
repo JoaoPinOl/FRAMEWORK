@@ -2,6 +2,7 @@ package com.descomplica.frameblog.models.V2;
 
 
 import com.descomplica.frameblog.enums.RoleEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,10 @@ public class UserV2 implements UserDetails {
     private Long userId;
     private String name;
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private RoleEnum role;
     private String username;
 

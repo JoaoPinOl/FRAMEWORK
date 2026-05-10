@@ -3,6 +3,7 @@ package com.descomplica.frameblog.models;
 
 import com.descomplica.frameblog.deserialize.CustomAuthorityDeserializer;
 import com.descomplica.frameblog.enums.RoleEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,7 +14,9 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_user")
+@Table(name = "tb_user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username")
+})
 public class User implements UserDetails {
 
     @Id
@@ -21,8 +24,13 @@ public class User implements UserDetails {
     private Long userId;
     private String name;
     private String email;
+
+    @JsonIgnore
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private RoleEnum role;
+
     private String username;
 
     public User(){

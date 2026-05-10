@@ -63,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .getSubject();
 
         } catch (JWTVerificationException exception) {
-            return "";
+            return null;
         }
     }
     private Instant getExpirationDate() {
