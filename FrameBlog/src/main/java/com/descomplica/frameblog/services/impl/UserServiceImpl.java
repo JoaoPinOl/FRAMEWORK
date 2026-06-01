@@ -3,6 +3,7 @@ package com.descomplica.frameblog.services.impl;
 import com.descomplica.frameblog.models.User;
 import com.descomplica.frameblog.repository.UserRepository;
 import com.descomplica.frameblog.services.UserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @CircuitBreaker(name = "circuitBreaker")
     public User save(final User user) {
         User existingUser = userRepository.findByUsername(user.getUsername());
         if(Objects.nonNull(existingUser)){
